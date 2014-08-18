@@ -58,16 +58,30 @@ class UpdateUi(Thread):
             sys.stdout.write(' '*self.mess_list_len[if_name]+'\n')
         self.move_up(self.line_count)
             
+    def get_total(self,if_data):
+        try:
+            r_total,t_total=map(lambda x,y,z:y+z-x,
+                if_data['start_size'],if_data['last_size'],
+                    if_data['speed_size']) # 计算当前总输出的数据
+        except KeyError:
+            r_total,t_total=0,0
+
+        return r_total,t_total
+                
+
         
     def show_if_stat(self):
         if self.stat_list:
             for if_name in self.if_list:
                 if_data=self.stat_list[if_name]
                 r_speed,t_speed=if_data.get('speed_size',(0,0))
-                
-                mess="%-8s :%20s\t%20s"%(if_name,
+                r_total,t_total=self.get_total(if_data)
+
+                mess="%-8s :%10s/s\t%10s/s\t%10s\t%10s"%(if_name,
                         self.SwitchMode.swit_mode(r_speed),
-                        self.SwitchMode.swit_mode(t_speed))
+                        self.SwitchMode.swit_mode(t_speed),
+                        self.SwitchMode.swit_mode(r_total),
+                        self.SwitchMode.swit_mode(t_total),)
                 self.mess_list_len[if_name]=len(mess)
                 sys.stdout.write(mess + '\n')
 
@@ -92,7 +106,8 @@ class show_ui(object):
         self.if_list=opt.ifaces
         self.show_mode=opt.show_mode
         print "netspeed v0.1\t——q8886888@qq.com\n"
-        print "%-8s  %20s\t%20s"%("iface","Receive","Transmit")
+        print "%-8s  %10s\t%10s\t%10s\t%10s"%("iface","Receive","Transmit",
+                "RX total","TX total")
         update_ui=UpdateUi(opt)
         update_ui.setDaemon(True)
         update_ui.start()

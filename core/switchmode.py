@@ -12,9 +12,9 @@ class SwitchMode(object):
 
     def mess_mode(self,speed_data,show_mode):
         if show_mode=='B':
-            s="%.2f B/s"%(speed_data)
+            s="%.2f B"%(speed_data)
         else:
-            s="%.2f %sB/s"%(speed_data,show_mode)
+            s="%.2f %sB"%(speed_data,show_mode)
         return s
         
 
