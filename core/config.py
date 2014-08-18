@@ -1,0 +1,3 @@
+DEVPATH = "/proc/net/dev"
+CONVERSION=1000.0
+VERSION = "0.1"
