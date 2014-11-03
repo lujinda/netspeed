@@ -1,5 +1,6 @@
-from core import iface
-from core.config import *
+#coding:utf8
+from netspeed.core import iface
+from netspeed.core.config import *
 
 class UnknowIface(Exception):
     pass
@@ -27,11 +28,13 @@ def parser_args():
 
     help="interval in seconds(default 1)"
     parser.add_option('-i','--interval',
-            type=int,default=1,
+            type=float,default=1,
             metavar='INTERVAL',help=help)
     
+
     opt,args=parser.parse_args()
     opt.show_mode=None
+    assert(opt.interval >= 1)
 
     if opt.B:
         opt.show_mode='B'
@@ -43,7 +46,7 @@ def parser_args():
         opt.show_mode='H'
 
     
-    unknow_if=list(set(args)-set(iface.get_if_list()))
+    unknow_if=list(set(args)-set(iface.get_if_list())) # 找出没有在本地存在的网卡
 
 
     if unknow_if:
@@ -51,6 +54,6 @@ def parser_args():
 
 
     opt.ifaces=args or iface.get_if_list()
-        
+    
     return opt,args
     

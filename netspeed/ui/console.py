@@ -1,9 +1,9 @@
 #/usr/bin/env python
 #coding:utf8
-from core.config import *
+from netspeed.core.config import *
 from threading import Thread
-from core import iface
-from core import switchmode
+from netspeed.core import iface
+from netspeed.core import switchmode
 import sys
 import signal
 import time
@@ -14,7 +14,7 @@ class UpdateUi(Thread):
         self.interval=opt.interval
         self.start_time=time.time()
         self.show_mode=opt.show_mode
-        self.time_loop=True
+        self.time_loop=True  # 控制打印是否再继续
         self.SwitchMode=switchmode.SwitchMode(self.show_mode)
         signal.signal(signal.SIGINT,self.stop)
         signal.signal(signal.SIGTERM,self.stop)
@@ -88,7 +88,7 @@ class UpdateUi(Thread):
                 sys.stdout.flush()
             self.line_count=1+len(self.stat_list)
         else:
-            self.line_count=1
+            self.line_count=1 
 
     def show_time(self,cost_time):
         hours=int(cost_time/60/60)

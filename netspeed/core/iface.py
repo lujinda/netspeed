@@ -1,4 +1,5 @@
-from core.config import *
+#coding:utf8
+from netspeed.core.config import *
 from threading import Thread
 import time
 import sys
@@ -48,7 +49,7 @@ class IfaceData(Thread):
                 t_size=int(data_size[8])
 
                 if self.run_first:
-                    if_now['start_size']=[r_size,t_size]
+                    if_now['start_size']=[r_size,t_size]  # 第一次运行时，进行一下初始化
                     if_now['speed_size']=[0,0]
                 else:
                     if_now['speed_size']=map(lambda x,y:(y-x)/self.interval,if_now['last_size'],[r_size,t_size])
